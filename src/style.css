@@ -71,6 +71,15 @@ h1 {
 .title {
     grid-area: title;
     background: rgb(35, 41, 44);
+    display: flex;
+    flex-flow: row wrap;
+    place-content: center flex-start;
+    padding: 20px
+}
+
+.title>div,
+.title>div>span{
+    font-size: 36px;
 }
 
 .nav {
