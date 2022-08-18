@@ -14,15 +14,17 @@ const addText = (text) => {
     return textNode;
 }
 
-const createInbox = () => {
-    const inboxContainer = document.createElement("div");
-    inboxContainer.classList.add("container");
-    inboxContainer.append(addIcon("inbox"), addText("Inbox"));
-    return inboxContainer;
+const createNavObject = (icon_name, text) => {
+    const container = document.createElement("div");
+    container.classList.add("container");
+    container.append(addIcon(icon_name), addText(text));
+    return container;
 }
 
 function appendToNav() {
-    getNav().append(createInbox());
+    getNav().append(createNavObject("inbox", "Inbox"));
+    getNav().append(createNavObject("event", "Today"));
+    getNav().append(createNavObject("date_range", "This Week"));
 }
 
 appendToNav();
