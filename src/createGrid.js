@@ -2,28 +2,16 @@ const getContent = () => {
     return document.getElementById("content");
 }
 
-const createTitle = () => {
-    const title = document.createElement("div");
-    title.classList.add("title");
-    return title;
-}
-
-const createNav = () => {
-    const nav = document.createElement("div");
-    nav.classList.add("nav");
-    return nav;
-}
-
-const createBody = () => {
-    const body = document.createElement("div");
-    body.classList.add("body");
-    return body;
+const createContent = (grid_area) => {
+    const content = document.createElement("div");
+    content.classList.add(grid_area);
+    return content;
 }
 
 function appendToContent() {
-    getContent().append(createTitle());
-    getContent().append(createNav());
-    getContent().append(createBody());
+    getContent().append(createContent("title"));
+    getContent().append(createContent("nav"));
+    getContent().append(createContent("body"));
 }
 
 appendToContent();
