@@ -2,22 +2,21 @@ const getContent = () => {
     return document.getElementById("content");
 }
 
-
-function createNav(){
+const createNav = () =>{
     const nav = document.createElement("div"); 
     nav.classList.add("nav"); 
-    getContent().append(nav);
+    return nav;
 }
 
-function createBody(){
+const createBody = () =>{
     const body = document.createElement("div"); 
     body.classList.add("body"); 
-    getContent().append(body);
+    return body;
 }
 
-function createGrid(){
-    createNav();
-    createBody();
+function appendToContent() {
+    getContent().append(createNav());
+    getContent().append(createBody());
 }
 
-createGrid();
+appendToContent();
