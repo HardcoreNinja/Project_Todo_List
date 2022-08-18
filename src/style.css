@@ -4,22 +4,24 @@
     font-weight: lighter;
 }
 
-*{
+* {
     margin: 0px;
     padding: 0px;
     font-family: "Lato";
     color: white
 }
 
-:root{
+:root {
     background: orange;
 }
 
-#content{
+#content {
     display: grid;
-    grid-template-columns: 1fr 6fr;
+    grid-template-rows: 1fr 6fr;
+    grid-template-columns: 1fr 4fr;
     grid-template-areas:
-    "nav body"
+        "title title"
+        "nav body"
     ;
 
     min-width: 100vw;
@@ -28,12 +30,17 @@
     max-height: 100vh;
 }
 
-.nav{
+.title {
+    grid-area: title;
+    background: rgb(35, 41, 44);
+}
+
+.nav {
     grid-area: nav;
     background: rgb(29, 33, 37);
 }
 
-.body{
+.body {
     grid-area: body;
     background: rgb(36, 41, 46);
 }
