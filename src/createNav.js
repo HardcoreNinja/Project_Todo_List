@@ -14,9 +14,20 @@ const addText = (text) => {
     return textNode;
 }
 
-const createNavObject = (icon_name, text) => {
+function listenerFunction() {
+    alert(this.getAttribute("id"));
+    return this.getAttribute("id");
+}
+
+const addEvtListener = (element) => {
+    element.addEventListener("mousedown", listenerFunction);
+}
+
+const createNavObject = (icon_name, text, id) => {
     const container = document.createElement("div");
     container.classList.add("container");
+    container.setAttribute("id", id);
+    addEvtListener(container);
     container.append(addIcon(icon_name), addText(text));
     return container;
 }
@@ -33,9 +44,9 @@ const createH1 = (text) => {
 }
 
 function appendToNav() {
-    getNav().append(createNavObject("inbox", "Inbox"));
-    getNav().append(createNavObject("event", "Today"));
-    getNav().append(createNavObject("date_range", "This Week"));
+    getNav().append(createNavObject("inbox", "Inbox", "inbox"));
+    getNav().append(createNavObject("event", "Today", "today"));
+    getNav().append(createNavObject("date_range", "This Week", "this_week"));
     getNav().append(createDividerLine());
     getNav().append(createH1("Projects"));
 }
