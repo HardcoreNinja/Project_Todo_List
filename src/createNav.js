@@ -21,10 +21,23 @@ const createNavObject = (icon_name, text) => {
     return container;
 }
 
+const createDividerLine = () => {
+    const dividerLine = document.createElement("hr");
+    return dividerLine;
+}
+
+const createH1 = (text) => {
+    const h1 = document.createElement("h1");
+    h1.innerHTML = text;
+    return h1;
+}
+
 function appendToNav() {
     getNav().append(createNavObject("inbox", "Inbox"));
     getNav().append(createNavObject("event", "Today"));
     getNav().append(createNavObject("date_range", "This Week"));
+    getNav().append(createDividerLine());
+    getNav().append(createH1("Projects"));
 }
 
 appendToNav();

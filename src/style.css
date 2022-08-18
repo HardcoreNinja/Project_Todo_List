@@ -37,6 +37,17 @@
     color: white
 }
 
+hr {
+    border-top: 3px solid #bbb;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: larger;
+}
+
 :root {
     background: orange;
 }
