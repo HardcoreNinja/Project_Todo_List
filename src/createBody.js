@@ -1,3 +1,8 @@
+const task = {
+    title: "",
+    task: "",
+    date: ""
+}
 let sectionId = "Inbox";
 let taskName = "";
 const getContent = () => {
@@ -49,17 +54,18 @@ const createInput = (input_type,
     return input;
 }
 
-const createLabel = () => {
+const createLabel = (id) => {
     const label = document.createElement("label");
+    label.setAttribute("id", id);
     label.for = taskName;
     label.innerHTML = taskName;
     return label;
 }
 
-const createInputContainer = (label, task, date) => {
+const createInputContainer = (label, task, date, button) => {
     const container = document.createElement("div");
     container.classList.add("inputContainer");
-    container.append(label, task, date);
+    container.append(label, task, date, button);
     return container;
 }
 
@@ -80,23 +86,15 @@ function createTaskModal() {
     modalContent.append(
         "Please name your task...",
         createInput("text", "createTask", true, "input", setTaskName),
-        createButton("check", "Create Task", closeModal)
+        createButton("check", "Create Task", closeModal, "closeModalButton")
     );
     modal.appendChild(modalContent);
     getContent().append(modal);
 }
 
-function addTask() {
-    // alert("Add Task!");
-    const taskContainer = document.createElement("div");
-    const form = document.createElement("form");
-    form.append(createInputContainer(createLabel(taskName), createInput("text", taskName, false, null, null), createInput("date", taskName, false, null, null)));
-    taskContainer.append(form);
-    getBody().append(taskContainer);
-}
-
-const createButton = (icon, text, funct) => {
+const createButton = (icon, text, funct, id) => {
     const button = document.createElement("button");
+    button.setAttribute("id", id);
     button.append(addIcon(icon));
     button.append(text);
     button.addEventListener("mousedown", funct);
@@ -104,11 +102,32 @@ const createButton = (icon, text, funct) => {
     return button;
 }
 
+function save() {
+    const newTask = Object.create(task);
+
+    newTask.title = document.getElementById(this.id + "Label").textContent;
+    newTask.task = document.getElementById(this.id + "Task").value;
+    newTask.date = document.getElementById(this.id + "Date").value;
+
+    alert(newTask.title + " " + newTask.task + " " + newTask.date);
+}
+
+function addTask() {
+    // alert("Add Task!");
+    const taskContainer = document.createElement("div");
+    const form = document.createElement("form");
+    form.append(createInputContainer(createLabel(taskName + "Label"), createInput("text", taskName + "Task", false, null, null), createInput("date", taskName + "Date", false, null, null), createButton("save", "Save", save, taskName)));
+    taskContainer.append(form);
+    getBody().append(taskContainer);
+}
+
+
+
 const createBodyObject = () => {
     if (sectionId === "Inbox") {
         const inboxContainer = document.createElement("div");
         inboxContainer.classList.add("inboxContainer");
-        inboxContainer.append(createButton("add", "Add Task", createTaskModal));
+        inboxContainer.append(createButton("add", "Add Task", createTaskModal, "addTaskButton"));
         return inboxContainer;
     }
     else if (sectionId === "Today") {
