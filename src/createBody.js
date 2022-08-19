@@ -1,3 +1,5 @@
+import { pushTasks } from "./inboxLogic.js";
+
 const task = {
     title: "",
     task: "",
@@ -102,6 +104,32 @@ const createButton = (icon, text, funct, id) => {
     return button;
 }
 
+function clearTC(id) {
+    const taskContainer = document.getElementById(id);
+
+    while (taskContainer.firstChild)
+        taskContainer.removeChild(taskContainer.firstChild);
+}
+
+function deleteTask() {
+    // alert(this.id)
+    document.getElementById(this.id + "TC").remove();
+}
+
+const createDividerLine = () => {
+    const dividerLine = document.createElement("hr");
+    return dividerLine;
+}
+
+function appendSavedTask(id, task) {
+    const taskContainer = document.getElementById(id);
+    taskContainer.innerHTML = "Title: " + task.title + '<br>' + '<br>' +
+        "Task: " + task.task + '<br>' + '<br>' +
+        "Due Date: " + task.date;
+
+    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, task.title), createDividerLine());
+}
+
 function save() {
     const newTask = Object.create(task);
 
@@ -109,12 +137,16 @@ function save() {
     newTask.task = document.getElementById(this.id + "Task").value;
     newTask.date = document.getElementById(this.id + "Date").value;
 
-    alert(newTask.title + " " + newTask.task + " " + newTask.date);
+    pushTasks(newTask);
+    clearTC(this.id + "TC");
+    appendSavedTask(this.id + "TC", newTask);
 }
 
 function addTask() {
     // alert("Add Task!");
     const taskContainer = document.createElement("div");
+    taskContainer.setAttribute("id", taskName + "TC");
+    taskContainer.classList.add("taskContainer");
     const form = document.createElement("form");
     form.append(createInputContainer(createLabel(taskName + "Label"), createInput("text", taskName + "Task", false, null, null), createInput("date", taskName + "Date", false, null, null), createButton("save", "Save", save, taskName)));
     taskContainer.append(form);
