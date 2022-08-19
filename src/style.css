@@ -117,3 +117,12 @@ h1 {
     place-content: flex-start flex-start;
     padding: 20px;
 }
+
+button {
+    display: flex;
+    flex-flow: row wrap;
+    place-content: center center;
+    width: 200px;
+    height: 50px;
+    gap: 20px;
+}

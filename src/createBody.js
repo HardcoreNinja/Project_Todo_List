@@ -1,4 +1,4 @@
-let sectionId = null;
+let sectionId = "Inbox";
 
 const getBody = () => {
     return document.querySelector(".body");
@@ -22,8 +22,48 @@ function clearBody() {
         getBody().removeChild(getBody().firstChild);
 }
 
-function appendToBody() {
-    getBody().append(createTitle());
+const addIcon = (icon_name) => {
+    const span = document.createElement("span");
+    span.classList.add("material-icons");
+    span.innerHTML = icon_name;
+    return span;
 }
+
+function addTask() {
+    alert("Add Task!");
+}
+
+const addEvtListener = (button) => {
+    button.addEventListener("mousedown", addTask)
+}
+
+const createButton = (icon, text) => {
+    const button = document.createElement("button");
+    button.append(addIcon(icon));
+    button.append(text);
+    addEvtListener(button);
+    button.classList.add("button")
+    return button;
+}
+
+
+
+const createBodyObject = () => {
+    if (sectionId === "Inbox") {
+        return createButton("add", "Add Task");
+    }
+    else if (sectionId === "Today") {
+
+    }
+    else if (sectionId === "This Week") {
+
+    }
+}
+
+function appendToBody() {
+    getBody().append(createBodyObject());
+}
+
+appendToBody();
 
 export { receiverFunction };
