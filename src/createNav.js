@@ -1,3 +1,4 @@
+import { receiverFunction } from "./createBody";
 const getNav = () => {
     return document.querySelector(".nav");
 }
@@ -15,18 +16,18 @@ const addText = (text) => {
 }
 
 function listenerFunction() {
-    alert(this.getAttribute("id"));
-    return this.getAttribute("id");
+    // alert(this.getAttribute("id"));
+    receiverFunction(this.getAttribute("id"));
 }
 
 const addEvtListener = (element) => {
     element.addEventListener("mousedown", listenerFunction);
 }
 
-const createNavObject = (icon_name, text, id) => {
+const createNavObject = (icon_name, text) => {
     const container = document.createElement("div");
     container.classList.add("container");
-    container.setAttribute("id", id);
+    container.setAttribute("id", text);
     addEvtListener(container);
     container.append(addIcon(icon_name), addText(text));
     return container;
@@ -44,9 +45,9 @@ const createH1 = (text) => {
 }
 
 function appendToNav() {
-    getNav().append(createNavObject("inbox", "Inbox", "inbox"));
-    getNav().append(createNavObject("event", "Today", "today"));
-    getNav().append(createNavObject("date_range", "This Week", "this_week"));
+    getNav().append(createNavObject("inbox", "Inbox"));
+    getNav().append(createNavObject("event", "Today"));
+    getNav().append(createNavObject("date_range", "This Week"));
     getNav().append(createDividerLine());
     getNav().append(createH1("Projects"));
 }

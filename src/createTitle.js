@@ -14,7 +14,7 @@ const addText = (text) => {
     return textNode;
 }
 
-const createNavObject = (icon_name, text) => {
+const createTitleObject = (icon_name, text) => {
     const container = document.createElement("div");
     container.classList.add("container");
     container.append(addIcon(icon_name), addText(text));
@@ -22,7 +22,7 @@ const createNavObject = (icon_name, text) => {
 }
 
 function appendToTitle() {
-    getTitle().append(createNavObject("task_alt", "Todo List"));
+    getTitle().append(createTitleObject("task_alt", "Todo List"));
 }
 
 appendToTitle();

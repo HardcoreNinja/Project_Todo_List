@@ -113,4 +113,7 @@ h1 {
 .body {
     grid-area: body;
     background: rgb(36, 41, 46);
+    display: flex;
+    place-content: flex-start flex-start;
+    padding: 20px;
 }
