@@ -15,6 +15,26 @@ const getBody = () => {
     return document.querySelector(".body");
 }
 
+function appendTasksFromLocalStorage(i, string) {
+    const stringArray = string.split(",");
+    const taskContainer = document.createElement("div");
+    taskContainer.setAttribute("id", i + "TC");
+
+    taskContainer.innerHTML = "Title: " + stringArray[0] + '<br>' + '<br>' +
+        "Task: " + stringArray[1] + '<br>' + '<br>' +
+        "Due Date: " + stringArray[2];
+
+    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, i), createDividerLine());
+
+    getBody().append(taskContainer);
+}
+
+function loadTasksFromLocalStorage() {
+    for (let i = 0; i < localStorage.length; i++)
+        appendTasksFromLocalStorage(i, localStorage.getItem(i))
+
+}
+
 function receiverFunction(id) {
     // alert(id);
     sectionId = id;
@@ -175,5 +195,7 @@ function appendToBody() {
 }
 
 appendToBody();
+
+window.onload = loadTasksFromLocalStorage();
 
 export { receiverFunction };
