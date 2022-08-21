@@ -1,4 +1,4 @@
-import { pushTasks } from "./inboxLogic.js";
+import { pushTasks, getIDByTasksLength, spliceTasks, getTasks, getNumberOfLocalTasks } from "./inboxLogic.js";
 
 const task = {
     title: "",
@@ -127,16 +127,23 @@ const createButton = (icon, text, funct, id, submitButton) => {
     return button;
 }
 
-function clearTC(id) {
-    const taskContainer = document.getElementById(id);
+function deleteTC(id) {
+    document.getElementById(id).remove();
+}
 
-    while (taskContainer.firstChild)
-        taskContainer.removeChild(taskContainer.firstChild);
+function resetIDs() {
+    const taskContainers = document.getElementsByClassName("savedTaskContainer");
+
+    for (let i = getNumberOfLocalTasks() - 1; i < getTasks().length; i++) {
+        taskContainers[i].setAttribute("id", i + "TC");
+    }
 }
 
 function deleteTask() {
-    // alert(this.id)
-    document.getElementById(this.id + "TC").remove();
+    const stringArray = this.id.split("D");
+    document.getElementById(stringArray[0] + "TC").remove();
+    spliceTasks(stringArray[0]);
+    resetIDs();
 }
 
 const createDividerLine = () => {
@@ -145,16 +152,18 @@ const createDividerLine = () => {
 }
 
 function appendSavedTask(id, task) {
-    const taskContainer = document.getElementById(id);
+    const taskContainer = document.createElement("div");
+    taskContainer.classList.add("savedTaskContainer");
+    taskContainer.setAttribute("id", id + "TC");
     taskContainer.innerHTML = "Title: " + task.title + '<br>' + '<br>' +
         "Task: " + task.task + '<br>' + '<br>' +
         "Due Date: " + task.date;
 
-    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, task.title, false), createDividerLine());
+    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, id + "Delete", false), createDividerLine());
+    getBody().append(taskContainer);
 }
 
 function save() {
-
     const form = document.getElementById(this.id + "Form");
 
     if (form.reportValidity()) {
@@ -166,8 +175,8 @@ function save() {
         newTask.date = document.getElementById(this.id + "Date").value;
 
         pushTasks(newTask);
-        clearTC(this.id + "TC");
-        appendSavedTask(this.id + "TC", newTask);
+        deleteTC(this.id + "TC");
+        appendSavedTask(getIDByTasksLength(), newTask);
     }
 }
 

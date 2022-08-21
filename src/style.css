@@ -158,7 +158,8 @@ input {
     place-content: center center;
 }
 
-.taskContainer {
+.taskContainer,
+.savedTaskContainer {
     display: flex;
     flex-flow: column wrap;
     place-content: flex-start flex-start;

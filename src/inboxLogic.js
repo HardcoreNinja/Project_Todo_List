@@ -1,4 +1,9 @@
-const tasks = []
+const tasks = [];
+let numberOfLocalTasks = 0;
+
+const getIDByTasksLength = () => {
+    return tasks.length - 1;
+}
 
 function addLocalStorageToTasks() {
     if (localStorage.length > 0) {
@@ -17,7 +22,9 @@ function addLocalStorageToTasks() {
 
             tasks.push(tempTask);
         }
+        numberOfLocalTasks = tasks.length;
     }
+
 }
 
 function saveToLocalStorage() {
@@ -36,6 +43,20 @@ function pushTasks(task) {
     saveToLocalStorage();
 }
 
+function spliceTasks(id) {
+    tasks.splice(id, 1);
+}
+
+const getTasks = () => {
+    return tasks;
+}
+
+
+const getNumberOfLocalTasks = () => {
+    return numberOfLocalTasks;
+}
+
+// window.onload = localStorage.clear();
 window.onload = addLocalStorageToTasks();
 
-export { pushTasks };
+export { pushTasks, getIDByTasksLength, spliceTasks, getTasks, getNumberOfLocalTasks };
