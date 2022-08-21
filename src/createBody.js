@@ -200,8 +200,6 @@ function addTask() {
     getBody().append(taskContainer);
 }
 
-
-
 const createBodyObject = () => {
     if (sectionId === "Inbox") {
         const inboxContainer = document.createElement("div");
@@ -219,10 +217,9 @@ const createBodyObject = () => {
 
 function appendToBody() {
     getBody().append(createTitle(), createBodyObject());
+    loadTasksFromLocalStorage();
 }
 
 appendToBody();
-
-window.onload = loadTasksFromLocalStorage();
 
 export { receiverFunction };
