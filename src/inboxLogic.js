@@ -59,4 +59,4 @@ const getNumberOfLocalTasks = () => {
 // window.onload = localStorage.clear();
 window.onload = addLocalStorageToTasks();
 
-export { pushTasks, getIDByTasksLength, spliceTasks, getTasks, getNumberOfLocalTasks };
+export { pushTasks, getIDByTasksLength, spliceTasks, getTasks, getNumberOfLocalTasks, saveToLocalStorage };

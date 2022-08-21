@@ -1,4 +1,4 @@
-import { pushTasks, getIDByTasksLength, spliceTasks, getTasks, getNumberOfLocalTasks } from "./inboxLogic.js";
+import { pushTasks, getIDByTasksLength, spliceTasks, getTasks, getNumberOfLocalTasks, saveToLocalStorage } from "./inboxLogic.js";
 
 const task = {
     title: "",
@@ -18,6 +18,7 @@ const getBody = () => {
 function appendTasksFromLocalStorage(i, string) {
     const stringArray = string.split(",");
     const taskContainer = document.createElement("div");
+    taskContainer.classList.add("savedTaskContainer");
     taskContainer.setAttribute("id", i + "TC");
 
     taskContainer.innerHTML = "Title: " + stringArray[0] + '<br>' + '<br>' +
@@ -134,9 +135,11 @@ function deleteTC(id) {
 function resetIDs() {
     const taskContainers = document.getElementsByClassName("savedTaskContainer");
 
-    for (let i = getNumberOfLocalTasks() - 1; i < getTasks().length; i++) {
+    for (let i = getNumberOfLocalTasks(); i < getTasks().length; i++) {
         taskContainers[i].setAttribute("id", i + "TC");
     }
+
+    saveToLocalStorage();
 }
 
 function deleteTask() {
