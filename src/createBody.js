@@ -1,4 +1,9 @@
-import { pushTasks, getIDByTasksLength, spliceTasks, getTasks, getNumberOfLocalTasks, saveToLocalStorage } from "./inboxLogic.js";
+import { pushTasks, 
+    getIDByTasksLength, 
+    spliceTasks, 
+    getTasks, 
+    getNumberOfLocalTasks, 
+    saveToLocalStorage } from "./inboxLogic.js";
 
 const task = {
     title: "",
@@ -170,7 +175,7 @@ function save() {
     const form = document.getElementById(this.id + "Form");
 
     if (form.reportValidity()) {
-        alert(form.reportValidity());
+        // alert(form.reportValidity());
         const newTask = Object.create(task);
 
         newTask.title = document.getElementById(this.id + "Label").textContent;
