@@ -24,7 +24,7 @@ function appendTasksFromLocalStorage(i, string) {
         "Task: " + stringArray[1] + '<br>' + '<br>' +
         "Due Date: " + stringArray[2];
 
-    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, i), createDividerLine());
+    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, i, false), createDividerLine());
 
     getBody().append(taskContainer);
 }
@@ -68,6 +68,7 @@ const createInput = (input_type,
 ) => {
     const input = document.createElement("input");
     input.type = input_type;
+    input.required = true;
     input.setAttribute("id", id);
 
     if (listener_bool)
@@ -108,15 +109,17 @@ function createTaskModal() {
     modalContent.append(
         "Please name your task...",
         createInput("text", "createTask", true, "input", setTaskName),
-        createButton("check", "Create Task", closeModal, "closeModalButton")
+        createButton("check", "Create Task", closeModal, "closeModalButton", false)
     );
     modal.appendChild(modalContent);
     getContent().append(modal);
 }
 
-const createButton = (icon, text, funct, id) => {
+const createButton = (icon, text, funct, id, submitButton) => {
     const button = document.createElement("button");
     button.setAttribute("id", id);
+    if (submitButton)
+        button.type = "submit";
     button.append(addIcon(icon));
     button.append(text);
     button.addEventListener("mousedown", funct);
@@ -147,19 +150,25 @@ function appendSavedTask(id, task) {
         "Task: " + task.task + '<br>' + '<br>' +
         "Due Date: " + task.date;
 
-    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, task.title), createDividerLine());
+    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, task.title, false), createDividerLine());
 }
 
 function save() {
-    const newTask = Object.create(task);
 
-    newTask.title = document.getElementById(this.id + "Label").textContent;
-    newTask.task = document.getElementById(this.id + "Task").value;
-    newTask.date = document.getElementById(this.id + "Date").value;
+    const form = document.getElementById(this.id + "Form");
 
-    pushTasks(newTask);
-    clearTC(this.id + "TC");
-    appendSavedTask(this.id + "TC", newTask);
+    if (form.reportValidity()) {
+        alert(form.reportValidity());
+        const newTask = Object.create(task);
+
+        newTask.title = document.getElementById(this.id + "Label").textContent;
+        newTask.task = document.getElementById(this.id + "Task").value;
+        newTask.date = document.getElementById(this.id + "Date").value;
+
+        pushTasks(newTask);
+        clearTC(this.id + "TC");
+        appendSavedTask(this.id + "TC", newTask);
+    }
 }
 
 function addTask() {
@@ -168,7 +177,8 @@ function addTask() {
     taskContainer.setAttribute("id", taskName + "TC");
     taskContainer.classList.add("taskContainer");
     const form = document.createElement("form");
-    form.append(createInputContainer(createLabel(taskName + "Label"), createInput("text", taskName + "Task", false, null, null), createInput("date", taskName + "Date", false, null, null), createButton("save", "Save", save, taskName)));
+    form.setAttribute("id", taskName + "Form");
+    form.append(createInputContainer(createLabel(taskName + "Label"), createInput("text", taskName + "Task", false, null, null), createInput("date", taskName + "Date", false, null, null), createButton("save", "Save", save, taskName, true)));
     taskContainer.append(form);
     getBody().append(taskContainer);
 }
@@ -179,7 +189,7 @@ const createBodyObject = () => {
     if (sectionId === "Inbox") {
         const inboxContainer = document.createElement("div");
         inboxContainer.classList.add("inboxContainer");
-        inboxContainer.append(createButton("add", "Add Task", createTaskModal, "addTaskButton"));
+        inboxContainer.append(createButton("add", "Add Task", createTaskModal, "addTaskButton", false));
         return inboxContainer;
     }
     else if (sectionId === "Today") {
