@@ -1,19 +1,13 @@
 import {
-    pushTasks,
-    getIDByTasksLength,
-    spliceTasks,
-    getTasks,
-    getNumberOfLocalTasks,
-    saveToLocalStorage
+    save,
+    deleteTask,
+    loadTasksFromLocalStorage
 } from "./inboxLogic.js";
 
-const task = {
-    title: "",
-    task: "",
-    date: ""
-}
 let sectionId = "Inbox";
+
 let taskName = "";
+
 const getContent = () => {
     return document.getElementById("content");
 }
@@ -35,59 +29,6 @@ function appendTasksFromLocalStorage(i, string) {
     taskContainer.append(createButton("delete_forever", "Delete", deleteTask, i, false), createDividerLine());
 
     getBody().append(taskContainer);
-}
-
-const checkTodayTask = (localStorageString) => {
-    const stringArray = localStorageString.split(",");
-    const dateArray = stringArray[2].split("-");
-
-    let today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-
-    if (parseInt(dateArray[0]) === parseInt(year) &&
-        parseInt(dateArray[1] - 1) === parseInt(month) &&
-        parseInt(dateArray[2]) === parseInt(day)
-    )
-        return true;
-    else
-        return false;
-}
-
-const checkWeekTask = (localStorageString) => {
-    const stringArray = localStorageString.split(",");
-    const dateArray = stringArray[2].split("-");
-
-    let today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-
-
-    if (parseInt(dateArray[0]) === parseInt(year) &&
-        parseInt(dateArray[1] - 1) === parseInt(month) &&
-        parseInt(dateArray[2]) <= parseInt(day + 6))
-        return true;
-    else
-        return false;
-}
-
-function loadTasksFromLocalStorage() {
-    for (let i = 0; i < localStorage.length; i++) {
-        if (sectionId === "Inbox")
-            appendTasksFromLocalStorage(i, localStorage.getItem(i))
-        else if (sectionId === "Today") {
-
-            if (checkTodayTask(localStorage.getItem(i)))
-                appendTasksFromLocalStorage(i, localStorage.getItem(i));
-        }
-        else if (sectionId === "This Week") {
-            if (checkWeekTask(localStorage.getItem(i)))
-                appendTasksFromLocalStorage(i, localStorage.getItem(i));
-        }
-    }
-
 }
 
 function receiverFunction(id) {
@@ -182,59 +123,9 @@ const createButton = (icon, text, funct, id, submitButton) => {
     return button;
 }
 
-function deleteTC(id) {
-    document.getElementById(id).remove();
-}
-
-function resetIDs() {
-    const taskContainers = document.getElementsByClassName("savedTaskContainer");
-
-    for (let i = getNumberOfLocalTasks(); i < getTasks().length; i++) {
-        taskContainers[i].setAttribute("id", i + "TC");
-    }
-
-    saveToLocalStorage();
-}
-
-function deleteTask() {
-    const stringArray = this.id.split("D");
-    document.getElementById(stringArray[0] + "TC").remove();
-    spliceTasks(stringArray[0]);
-    resetIDs();
-}
-
 const createDividerLine = () => {
     const dividerLine = document.createElement("hr");
     return dividerLine;
-}
-
-function appendSavedTask(id, task) {
-    const taskContainer = document.createElement("div");
-    taskContainer.classList.add("savedTaskContainer");
-    taskContainer.setAttribute("id", id + "TC");
-    taskContainer.innerHTML = "Title: " + task.title + '<br>' + '<br>' +
-        "Task: " + task.task + '<br>' + '<br>' +
-        "Due Date: " + task.date;
-
-    taskContainer.append(createButton("delete_forever", "Delete", deleteTask, id + "Delete", false), createDividerLine());
-    getBody().append(taskContainer);
-}
-
-function save() {
-    const form = document.getElementById(this.id + "Form");
-
-    if (form.reportValidity()) {
-        // alert(form.reportValidity());
-        const newTask = Object.create(task);
-
-        newTask.title = document.getElementById(this.id + "Label").textContent;
-        newTask.task = document.getElementById(this.id + "Task").value;
-        newTask.date = document.getElementById(this.id + "Date").value;
-
-        pushTasks(newTask);
-        deleteTC(this.id + "TC");
-        appendSavedTask(getIDByTasksLength(), newTask);
-    }
 }
 
 function addTask() {
@@ -249,7 +140,7 @@ function addTask() {
     getBody().append(taskContainer);
 }
 
-const createBodyObject = () => {
+const createInboxObject = () => {
     const inboxContainer = document.createElement("div");
     inboxContainer.classList.add("inboxContainer");
     inboxContainer.append(createButton("add", "Add Task", createTaskModal, "addTaskButton", false));
@@ -258,7 +149,7 @@ const createBodyObject = () => {
 
 function appendToBody() {
     if (sectionId === "Inbox")
-        getBody().append(createTitle(), createBodyObject());
+        getBody().append(createTitle(), createInboxObject());
     else if (sectionId === "Today" || sectionId === "This Week")
         getBody().append(createTitle());
 
@@ -267,4 +158,10 @@ function appendToBody() {
 
 appendToBody();
 
-export { receiverFunction };
+export {
+    receiverFunction,
+    createButton,
+    createDividerLine,
+    appendTasksFromLocalStorage,
+    getBody, sectionId, taskName
+};
