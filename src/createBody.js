@@ -1,9 +1,11 @@
-import { pushTasks, 
-    getIDByTasksLength, 
-    spliceTasks, 
-    getTasks, 
-    getNumberOfLocalTasks, 
-    saveToLocalStorage } from "./inboxLogic.js";
+import {
+    pushTasks,
+    getIDByTasksLength,
+    spliceTasks,
+    getTasks,
+    getNumberOfLocalTasks,
+    saveToLocalStorage
+} from "./inboxLogic.js";
 
 const task = {
     title: "",
@@ -35,9 +37,35 @@ function appendTasksFromLocalStorage(i, string) {
     getBody().append(taskContainer);
 }
 
+const checkTodayTask = (localStorageString) => {
+    const stringArray = localStorageString.split(",");
+    const dateArray = stringArray[2].split("-");
+
+    let today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+
+    if (parseInt(dateArray[0]) === parseInt(year) &&
+        parseInt(dateArray[1] - 1) === parseInt(month) &&
+        parseInt(dateArray[2]) === parseInt(day)
+    )
+        return true;
+    else
+        return false;
+
+}
+
 function loadTasksFromLocalStorage() {
-    for (let i = 0; i < localStorage.length; i++)
-        appendTasksFromLocalStorage(i, localStorage.getItem(i))
+    for (let i = 0; i < localStorage.length; i++) {
+        if (sectionId === "Inbox")
+            appendTasksFromLocalStorage(i, localStorage.getItem(i))
+        else if (sectionId === "Today") {
+
+            if (checkTodayTask(localStorage.getItem(i)))
+                appendTasksFromLocalStorage(i, localStorage.getItem(i));
+        }
+    }
 
 }
 
@@ -201,22 +229,19 @@ function addTask() {
 }
 
 const createBodyObject = () => {
-    if (sectionId === "Inbox") {
-        const inboxContainer = document.createElement("div");
-        inboxContainer.classList.add("inboxContainer");
-        inboxContainer.append(createButton("add", "Add Task", createTaskModal, "addTaskButton", false));
-        return inboxContainer;
-    }
-    else if (sectionId === "Today") {
-
-    }
-    else if (sectionId === "This Week") {
-
-    }
+    const inboxContainer = document.createElement("div");
+    inboxContainer.classList.add("inboxContainer");
+    inboxContainer.append(createButton("add", "Add Task", createTaskModal, "addTaskButton", false));
+    return inboxContainer;
 }
 
 function appendToBody() {
-    getBody().append(createTitle(), createBodyObject());
+    if (sectionId === "Inbox")
+        getBody().append(createTitle(), createBodyObject());
+    else if (sectionId === "Today" || sectionId === "This Week")
+        getBody().append(createTitle());
+
+
     loadTasksFromLocalStorage();
 }
 
