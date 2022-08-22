@@ -50,7 +50,7 @@ h1 {
 }
 
 :root {
-    background: orange;
+    background: rgb(36, 41, 46);
 }
 
 #content {
@@ -93,7 +93,7 @@ h1 {
 
 .container {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     place-content: flex-start flex-start;
     gap: 10px;
     margin-top: 10px;
@@ -128,12 +128,21 @@ button {
     height: 50px;
     gap: 20px;
     border-radius: 5px;
-    color: black;
+    background: rgb(132, 17, 74);
+    border: 1px solid black;
+    color: white;
+    transition: .75s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: rgb(0, 145, 200);
+    box-shadow: 2px 2px 2px 2px rgba(0, 145, 200, 0.75s);
 }
 
 button,
 button>span {
-    color: black;
+    color: white;
 }
 
 .inboxContainer {
@@ -150,6 +159,14 @@ input {
     transition: 0.75s;
     border-radius: 5px;
     color: white;
+}
+
+input:hover,
+input:focus {
+    transform: scale(1.1);
+    background: rgb(0, 145, 200);
+    box-shadow: 2px 2px 2px 2px rgba(0, 145, 200, 0.75s);
+    outline-style: none;
 }
 
 .inputContainer {
@@ -188,18 +205,19 @@ input {
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
+    background-color: rgb(36, 41, 46);
     display: flex;
     flex-flow: column wrap;
     place-content: center center;
     margin: 15% auto;
     /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid rgb(132, 17, 74);
     min-width: 292px;
     min-height: 183px;
     max-width: 292px;
     max-height: 183px;
-    color: black;
+    color: white;
     gap: 20px;
+    border-radius: 5px;
 }

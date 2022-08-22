@@ -105,9 +105,9 @@ function deleteTC(id) {
 function resetIDs() {
     const taskContainers = document.getElementsByClassName("savedTaskContainer");
 
-    for (let i = getNumberOfLocalTasks(); i < getTasks().length; i++) 
+    for (let i = getNumberOfLocalTasks(); i < getTasks().length; i++)
         taskContainers[i].setAttribute("id", i + "TC");
-    
+
     saveToLocalStorage();
 }
 

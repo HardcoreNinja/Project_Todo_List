@@ -89,8 +89,10 @@ const createInputContainer = (label, task, date, button) => {
 }
 
 function closeModal() {
-    document.querySelector(".modal").remove();
-    addTask();
+    if (document.getElementById("createTaskForm").reportValidity()) {
+        document.querySelector(".modal").remove();
+        addTask();
+    }
 }
 
 function setTaskName() {
@@ -102,11 +104,15 @@ function createTaskModal() {
     modal.classList.add("modal");
     const modalContent = document.createElement("div");
     modalContent.classList.add("modal-content");
-    modalContent.append(
+    const form = document.createElement("form");
+    form.setAttribute("id", "createTaskForm");
+    form.append(
         "Please name your task...",
         createInput("text", "createTask", true, "input", setTaskName),
-        createButton("check", "Create Task", closeModal, "closeModalButton", false)
+        createButton("check", "Create Task", closeModal, "closeModalButton", true)
     );
+
+    modalContent.append(form);
     modal.appendChild(modalContent);
     getContent().append(modal);
 }

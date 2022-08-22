@@ -49,7 +49,6 @@ function appendToNav() {
     getNav().append(createNavObject("event", "Today"));
     getNav().append(createNavObject("date_range", "This Week"));
     getNav().append(createDividerLine());
-    getNav().append(createH1("Projects"));
 }
 
 appendToNav();
