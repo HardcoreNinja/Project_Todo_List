@@ -53,7 +53,24 @@ const checkTodayTask = (localStorageString) => {
         return true;
     else
         return false;
+}
 
+const checkWeekTask = (localStorageString) => {
+    const stringArray = localStorageString.split(",");
+    const dateArray = stringArray[2].split("-");
+
+    let today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+
+
+    if (parseInt(dateArray[0]) === parseInt(year) &&
+        parseInt(dateArray[1] - 1) === parseInt(month) &&
+        parseInt(dateArray[2]) <= parseInt(day + 6))
+        return true;
+    else
+        return false;
 }
 
 function loadTasksFromLocalStorage() {
@@ -63,6 +80,10 @@ function loadTasksFromLocalStorage() {
         else if (sectionId === "Today") {
 
             if (checkTodayTask(localStorage.getItem(i)))
+                appendTasksFromLocalStorage(i, localStorage.getItem(i));
+        }
+        else if (sectionId === "This Week") {
+            if (checkWeekTask(localStorage.getItem(i)))
                 appendTasksFromLocalStorage(i, localStorage.getItem(i));
         }
     }
@@ -240,7 +261,6 @@ function appendToBody() {
         getBody().append(createTitle(), createBodyObject());
     else if (sectionId === "Today" || sectionId === "This Week")
         getBody().append(createTitle());
-
 
     loadTasksFromLocalStorage();
 }
